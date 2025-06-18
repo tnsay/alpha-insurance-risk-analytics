@@ -1,3 +1,12 @@
+# My custom project-specific ignores
+*.ipynb_checkpoints/
+.DS_Store
+#data/*
+!data/README.md
+outputs/*
+!outputs/README.md
+
+# --- Auto-generated Python GitIgnore (start below this line) ---
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
