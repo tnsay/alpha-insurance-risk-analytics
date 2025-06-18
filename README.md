@@ -1,111 +1,109 @@
-# alpha-insurance-risk-analytics
-# 🚗 Insurance Risk Analysis – Task 1: Exploratory Data Analysis (EDA)
+# 🚗 Alpha Insurance Risk Analytics – EDA and Modeling
 
-Welcome to the repository for analyzing insurance risk data as part of the Alpha Analytics Project. This `task-1` branch contains exploratory analysis and visual insights extracted from a large dataset of insurance transactions.
+Welcome to the repository for analyzing insurance risk data as part of the **Alpha Analytics Project**.  
+This `task-1` branch focuses on **Exploratory Data Analysis (EDA)** and initial insights from a large dataset of insurance transactions.
 
 ---
 
-## 🔍 Task Overview
+## 📌 Project Overview
 
-**Objective**: Perform exploratory data analysis (EDA) to understand the structure, quality, variability, and key patterns in the insurance dataset.
-
-**Data Size**: ~1 million rows  
-**Key Columns**:
-- `TotalPremium`
-- `TotalClaims`
-- `SumInsured`
-- `CustomValueEstimate`
+**Objective**: Perform EDA, identify risk patterns, and prepare data for modeling claim severity.  
+**Data Size**: ~1 million records  
+**Core Features**:
+- `TotalPremium`, `TotalClaims`, `SumInsured`, `CustomValueEstimate`
 - `TransactionMonth`, `Province`, `CoverType`, `AutoMake`
 
 ---
 
-## 📈 Key EDA Highlights
+## 🔍 Task 1 – Exploratory Data Analysis (EDA)
 
-### 1. 📊 **Descriptive Statistics**
-- Calculated summary stats using `.describe()` for all major numerical features.
-- Examined variability using standard deviation.
-- Verified and cleaned column data types, especially datetime parsing.
+### ✅ Descriptive Statistics
+- Used `.describe()` to summarize major numerical features.
+- Checked variability via standard deviation.
+- Verified and cleaned data types (e.g., datetime parsing).
 
-### 2. 🔍 **Data Quality Assessment**
-- Checked for and reported missing values.
-- Ensured clean formatting for categorical and datetime columns.
+### ✅ Data Quality Checks
+- Reported missing values and handled them.
+- Ensured clean formatting for categorical fields.
 
-### 3. 🧮 **Univariate Analysis**
-- Plotted histograms for:
-  - `TotalPremium`, `TotalClaims`, `SumInsured`
-- Plotted bar charts for:
-  - `Province`, `CoverType`, `AutoMake`
+### ✅ Univariate Analysis
+- Histograms for `TotalPremium`, `TotalClaims`, `SumInsured`
+- Bar plots for `Province`, `CoverType`, `AutoMake`
 
-### 4. 🔄 **Bivariate/Multivariate Trends**
-- Analyzed **Monthly Total Claims vs Total Premiums**
-- Explored how **claim frequency** changes over time
-- Plotted multi-line charts grouped by **Province** to detect regional patterns
+### ✅ Bivariate / Multivariate Trends
+- Monthly trends: `Total Claims` vs `Total Premiums`
+- Tracked claim frequency over time
+- Multi-line charts by `Province` revealed regional patterns
 
-### 5. 🗺️ **Geographical Comparison**
-- Visualized how **Cover Type, Auto Make, Premiums** differ across `Province`
+### ✅ Outlier Detection
+- Box plots used to flag outliers in key numeric fields
 
-### 6. ⚠️ **Outlier Detection**
-- Used box plots to detect outliers in `TotalClaims`, `TotalPremium`, and `SumInsured`.
+### ✅ Geographical Insights
+- Compared Cover Type, Auto Make, and Premiums across provinces
 
 ---
 
 ## 📸 Visualizations
 
-Here are 3 key visual insights:
+1. 📉 **Monthly Premiums vs Claims**  
+   _Visualizes business volume trends over time._
 
-1. 📉 **Monthly Total Claims and Premiums**  
-   _Shows how business volumes fluctuate over time._
+2. 📈 **Claim Frequency by Month**  
+   _Tracks how often claims occur monthly._
 
-2. 📈 **Claim Frequency Over Time**  
-   _Tracks how often claims occur each month._
-
-3. 🌍 **Monthly Claims by Province**  
-   _Reveals regional differences in claim patterns._
+3. 🌍 **Claims by Province**  
+   _Exposes regional risk distribution._
 
 ---
 
-## 🗂️ Repository Structure
+## 📁 Repository Structure
 
 │
 ├── insurance_eda.ipynb # Main notebook with all EDA steps
 ├── README.md # This file
-├── assets/ # (Optional) Plots/images used in EDA
-└── data/ # (Optional) Cleaned/processed data
+├── assets/ # Plots and images from the analysis
+└── data/ # Cleaned or raw input datasets
 
 
-We reject the null hypothesis for provinces (p < 0.001). Claim frequency and severity both show statistically significant differences across provinces. For instance, Gauteng exhibits a 15% higher loss ratio than the Western Cape. This suggests regional underwriting strategies should be adjusted — potentially higher premiums in higher-risk provinces.
+---
 
-In contrast, we fail to reject the null hypothesis for gender (p > 0.8), indicating no significant difference in risk between male and female policyholders. Therefore, gender should not be used as a pricing variable.
+## 🧪 Task 2 – Data Version Control (DVC)
 
-# Task 4: Model Interpretability & Model Saving
+- Initialized DVC for reproducible data pipelines  
+- Tracked `raw_data.csv`, `cleaned_data.csv`, and derived KPIs  
+- Local DVC remote set at `C:/dvc_storage`  
+- Integrated DVC with Git for versioned data and models
 
-This task focuses on interpreting a trained XGBoost regression model for insurance claim severity using SHAP (SHapley Additive exPlanations), and saving the final model for reuse.
+---
 
-## 📊 Task Summary
+## 📊 Task 3 – Statistical Risk Hypotheses
 
-- **Model Trained**: XGBoost Regressor
-- **Target Variable**: `ClaimSeverity` (only for policies with claims)
-- **Features**: Cleaned and encoded policy data
-- **Interpretability**: Top 10 most influential features identified using SHAP summary plot
+- ✅ **Provinces**: _Statistically significant differences_ in claim frequency and severity (p < 0.001)  
+  ➤ *E.g., Gauteng shows ~15% higher loss ratio than Western Cape*
 
-## 🧠 SHAP Summary Plot
+- ❌ **Gender**: No significant difference (p > 0.8)  
+  ➤ *Gender shouldn't be a pricing factor*
 
-We used SHAP to visualize which features most influenced the model's predictions. This helps in understanding model behavior and improving trust in its outputs.
+---
 
+## 🤖 Task 4 – Model Interpretability
+
+### 🔧 Model Summary
+- **Trained Model**: XGBoost Regressor  
+- **Target**: `ClaimSeverity` (for claims only)  
+- **Features**: Cleaned + encoded policy data  
+
+### 🧠 SHAP for Model Explainability
 ```python
 import shap
 explainer = shap.Explainer(xgb, X_test)
 shap_values = explainer(X_test)
 shap.summary_plot(shap_values, X_test, max_display=10)
 
-## trained model is saved using joblib for future use:
-
+Model saving
 import joblib
 joblib.dump(xgb, "xgb_claim_severity_model.pkl")
-
-
-
 ## 🧑‍💻 Author
 
-Created by Tinsae Dagne 
+Created by Tinsae Dagne
 For Alpha Analytics Risk Project – Week 3
