@@ -72,6 +72,39 @@ Here are 3 key visual insights:
 ├── assets/ # (Optional) Plots/images used in EDA
 └── data/ # (Optional) Cleaned/processed data
 
+
+We reject the null hypothesis for provinces (p < 0.001). Claim frequency and severity both show statistically significant differences across provinces. For instance, Gauteng exhibits a 15% higher loss ratio than the Western Cape. This suggests regional underwriting strategies should be adjusted — potentially higher premiums in higher-risk provinces.
+
+In contrast, we fail to reject the null hypothesis for gender (p > 0.8), indicating no significant difference in risk between male and female policyholders. Therefore, gender should not be used as a pricing variable.
+
+# Task 4: Model Interpretability & Model Saving
+
+This task focuses on interpreting a trained XGBoost regression model for insurance claim severity using SHAP (SHapley Additive exPlanations), and saving the final model for reuse.
+
+## 📊 Task Summary
+
+- **Model Trained**: XGBoost Regressor
+- **Target Variable**: `ClaimSeverity` (only for policies with claims)
+- **Features**: Cleaned and encoded policy data
+- **Interpretability**: Top 10 most influential features identified using SHAP summary plot
+
+## 🧠 SHAP Summary Plot
+
+We used SHAP to visualize which features most influenced the model's predictions. This helps in understanding model behavior and improving trust in its outputs.
+
+```python
+import shap
+explainer = shap.Explainer(xgb, X_test)
+shap_values = explainer(X_test)
+shap.summary_plot(shap_values, X_test, max_display=10)
+
+## trained model is saved using joblib for future use:
+
+import joblib
+joblib.dump(xgb, "xgb_claim_severity_model.pkl")
+
+
+
 ## 🧑‍💻 Author
 
 Created by Tinsae Dagne 
