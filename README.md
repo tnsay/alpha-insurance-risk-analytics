@@ -103,7 +103,8 @@ shap.summary_plot(shap_values, X_test, max_display=10)
 Model saving
 import joblib
 joblib.dump(xgb, "xgb_claim_severity_model.pkl")
+
 ## 🧑‍💻 Author
 
 Created by Tinsae Dagne
-For Alpha Analytics Risk Project – Week 3
+For Alpha Analytics Risk Project – Week 3 final
